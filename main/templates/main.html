@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    h1 {
-        color: red;
-        font-size: 100px;
-        margin-bottom: 2px;
-    }
-    h5 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
+{% extends 'base.html' %}
 
-  </style>
-</head>
-<body>
+{% block content %}
   <h1>{{ appname }}</h1>
 
   <h5>{{ position1 }}</h5>
@@ -52,5 +38,35 @@
 
   <h5>{{ name }}</h5>
   <h5>{{ class }}</h5>
-</body>
-</html>
+
+  <table>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Goals</th>
+        <th>Market Price</th>
+    </tr>
+
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+    {% for item in items %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.goals}}</td>
+            <td>{{item.marketPrice}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br />
+
+<a href="{% url 'main:create_product' %}">
+    <button>
+        Add New Product
+    </button>
+</a>
+
+{% endblock content %}

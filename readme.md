@@ -3,6 +3,8 @@ Caesar Justitio
 PBP E
 Liverpoolist
 
+- TUGAS 2
+
 ## 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
 
 a. Membuat sebuah proyek 
@@ -78,3 +80,12 @@ a. Dalam MVC, Model dan View terpisah, dan Controller bertindak sebagai penghubu
 b. Dalam MVT, pemisahan terjadi antara Template dan View, sementara dalam MVC, View bertanggung jawab atas tampilan dan logic presentasi dari sebuah web.
 
 c. Dalam MVVM, hubungan data bisa terjadi dua arah antara Model dan View, fitur ini sangat berguna untuk pengembangan aplikasi yang membutuhkan otomasi tampilan saat ada perubahan pada data.
+
+
+- TUGAS 3
+
+## 1. Apa perbedaan antara form POST dan form GET dalam Django?
+## 2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+## 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+## 4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
+## 5. Screenshoot
