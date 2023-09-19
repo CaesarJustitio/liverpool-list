@@ -82,10 +82,207 @@ b. Dalam MVT, pemisahan terjadi antara Template dan View, sementara dalam MVC, V
 c. Dalam MVVM, hubungan data bisa terjadi dua arah antara Model dan View, fitur ini sangat berguna untuk pengembangan aplikasi yang membutuhkan otomasi tampilan saat ada perubahan pada data.
 
 
-- TUGAS 3
+# TUGAS 3
 
 ## 1. Apa perbedaan antara form POST dan form GET dalam Django?
+
+### POST
+- Data dikirim dalam bagian permintaan HTTP
+- Data tidak terlihat pada URL
+- Dapat digunakan untuk mengirimkan data besar dan data sensitif
+
+### GET
+- Data dikirim dalam URL permintaan HTTP
+- Data terliihat pada URL
+- Tidak dapat digunakan untuk mengirimkan data besar dan data sensitif karena rawan terjadi kebocoran data sensitif dan disalahgunakan oleh orang-orang tidak bertanggund jawab
+
 ## 2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+
+### XML
+
+- Format data tekstual yang dapat dibaca oleh manusia dan mesin
+- Dapat digunakan untuk beragam jenis data dan bisa digunakan untuk struktur data yang kompleks
+- Dapat digunakan untuk mengirimkan data besar
+
+### JSON
+
+- Data text yang bisa dibaca oleh mesin
+- Efisien untuk melakukan transmisi data
+- Lebih mudah dilakukan pemrosesan
+
+### HTML
+
+- Format data mewakili halaman web
+- Tidak dapat digunakan untuk data-data yang kompleks
+- Tidak efisien untuk mengirimkan data yang besar
+
 ## 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+Keunggulannya yang membuat JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena:
+- Ringkas, efisien, dan cepat
+- Readable: Mudah dimengerti oleh manusia dan mesin
+- Kapabiilitas: Bisa memproses beragam jenis data
+
 ## 4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
+
+### 1) Membuat input form untuk menambahkan objek model pada app sebelumnya.
+
+- Membuat forms.py pada folder main dengan isian "from main.models import Item" dan dengan isi "fields = ["name", "amount", "description", "goals", "marketPrice"]" 
+
+- Membuat fungsi create_product dalam file views.py yang bertujuan untuk membuat form yang dapat menambahkan data produk ke dalam databaser. Jangan lupa untuk menambahkan import (HttpResponseRedirect, ProductForm, dan reverse) pada line paling atas
+
+- Memodifikasi fungsi show_main dengan menambahkan 'items': items pada context
+
+- Menambahkan path url yang sesuai pada urls.py yaitu
+
+```py
+path('create-product', create_product, name='create_product')
+```
+
+- Membuat create_product.html pada folder templates yang ada pada folder main. Membuat tabel untuk menunjukkan data yang telah tersimpan di dalam database:
+
+```py
+{% extends 'base.html' %} 
+
+{% block content %}
+<h1>Add New Product</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Add Product"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+```
+
+- Menambahkan kode pada file main.html untuk menampilkan data:
+
+```py
+  <table>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Goals</th>
+        <th>Market Price</th>
+    </tr>
+
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+    {% for item in items %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.goals}}</td>
+            <td>{{item.marketPrice}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br />
+
+<a href="{% url 'main:create_product' %}">
+    <button>
+        Add New Product
+    </button>
+</a>
+```
+
+### 2) Menambahkan 5 fungsi views untuk melihat objek dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+Saya menambahkan kode berikut dalam file views.py yang berada di main.
+```py
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from main.forms import ProductForm
+from django.urls import reverse
+from django.core import serializers
+from main.models import Item
+
+def show_main(request):
+    items = Item.objects.all()
+
+    context = {
+        'name': 'Caesar Justitio',
+        'class': 'PBP E',
+        'appname': 'Liverpoolist',
+        'position1': 'Goalkeeper',
+        'position2': 'Defender',
+        'position3': 'Midfielder',
+        'position4': 'Attacker',
+        'items': items
+    }
+
+    return render(request, "main.html", context)
+
+def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+
+def show_xml(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
+
+context bisa disesuaikan dengan keinginan pembuat
+
+### 3) Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
+Routing URL memungkinkan aplikasi untuk menghubungkan URL tertentu dengan view yang sesuai. Ketika user mengakses URL tertentu, Django akan menggunakan routing URL untuk menentukan view yang harus dipanggil. Pada file urls.py pada direktori main, saya menambahkan kode berikut:
+
+```py
+from django.urls import path
+from main.views import show_main, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id
+
+app_name = 'main'
+
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('create-product', create_product, name='create_product'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<int:id>/', show_json_by_id, name='show_json_by_id')
+]
+```
+
 ## 5. Screenshoot
+
+1. HTML
+![HTML](assets/html.jpg)
+
+2. XML
+![XML](assets/xml.jpg)
+
+3. JSON
+![JSON](assets/json.jpg)
+
+4. XML by ID
+![XML by ID](assets/xml_by_id.jpg)
+
+5. JSON by ID
+![JSON by ID](assets/json_by_id.jpg)
