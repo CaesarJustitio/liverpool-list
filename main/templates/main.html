@@ -39,6 +39,14 @@
   <h5>{{ name }}</h5>
   <h5>{{ class }}</h5>
 
+{% if messages %}
+    <h5 class="messages">
+        {% for message in messages %}
+            <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h5>
+        {% endfor %}
+    </h5>
+{% endif %}
+
   <table>
     <tr>
         <th>Name</th>

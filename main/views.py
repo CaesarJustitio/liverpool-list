@@ -4,6 +4,7 @@ from main.forms import ProductForm
 from django.urls import reverse
 from django.core import serializers
 from main.models import Item
+from django.contrib import messages
 
 # Create your views here.
 def show_main(request):
@@ -27,6 +28,10 @@ def create_product(request):
 
     if form.is_valid() and request.method == "POST":
         form.save()
+
+        players = Item.objects.count()
+
+        messages.success(request, f"Kamu berhasil menyimpan {players} pemain pada liverpoolist. You'll Never Walk Alone")
         return HttpResponseRedirect(reverse('main:show_main'))
 
     context = {'form': form}
