@@ -51,6 +51,7 @@
     <tr>
         <th>Name</th>
         <th>Amount</th>
+        <th>Increase/Decrease</th> 
         <th>Description</th>
         <th>Goals</th>
         <th>Market Price</th>
@@ -62,9 +63,14 @@
         <tr>
             <td>{{item.name}}</td>
             <td>{{item.amount}}</td>
+            <td>
+                <a href="{% url 'main:inc_am' item.id %}">Tambah</a>
+                <a href="{% url 'main:dec_am' item.id %}">Kurang</a>
+            </td>
             <td>{{item.description}}</td>
             <td>{{item.goals}}</td>
             <td>{{item.marketPrice}}</td>
+            <td><a href="{% url 'main:delete' item.id %}">Hapus</a></td>
         </tr>
     {% endfor %}
 </table>
