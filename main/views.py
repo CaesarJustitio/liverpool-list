@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 
 @login_required(login_url='/login')
 def show_main(request):
-    items = Item.objects.all()
+    items = Item.objects.filter(user=request.user)
 
     last_login = request.COOKIES.get('last_login', 'N/A')
 
