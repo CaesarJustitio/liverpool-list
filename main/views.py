@@ -22,10 +22,6 @@ def show_main(request):
         'name': request.user.username,
         'class': 'PBP E',
         'appname': 'Liverpoolist',
-        'position1': 'Goalkeeper',
-        'position2': 'Defender',
-        'position3': 'Midfielder',
-        'position4': 'Attacker',
         'items': items,
         'last_login': last_login
     }
@@ -39,7 +35,7 @@ def create_product(request):
         item.user = request.user
         item.save()
 
-        players = Item.objects.count()
+        players = Item.objects.filter(user=request.user).count()
 
         messages.success(request, f"Kamu berhasil menyimpan {players} pemain pada liverpoolist. You'll Never Walk Alone")
         return HttpResponseRedirect(reverse('main:show_main'))
@@ -113,3 +109,18 @@ def delete(request, item_id):
     item = get_object_or_404(Item, pk=item_id, user=request.user)
     item.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+def edit_product(request, id):
+    # Get product berdasarkan ID
+    item = Item.objects.get(pk = id)
+
+    # Set product sebagai instance dari form
+    form = ProductForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)

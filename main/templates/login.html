@@ -6,40 +6,94 @@
 
 {% block content %}
 
-<div class = "login">
+<style>
+    .login-container {
+        background-color: #FF0000;
+        color: #FF0000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
 
-    <h1>Login</h1>
+    .login-box {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+    .login h1 {
+        font-size: 24px;
+        color: #FF0000;
+        margin-bottom: 20px;
+    }
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
+    .login table {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
-        
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+    .login input[type="text"],
+    .login input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: #FF0000;
+        border: 1px solid #FF0000;
+    }
 
+    .login .login-btn {
+        background-color: #FFC0CB;
+        color: #FF0000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .login .login-btn:hover {
+        background-color: #FFB6C1;
+    }
+</style>
+
+
+<div class="login-container">
+    <div class="login-box">
+        <h1>Login</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><span style="color: red;">Username:</span> </td>
+                    <td><input type="text" name="username" placeholder="Username" class="form-control" style="color: #FF0000;"></td>
+                </tr>
+                        
+                <tr>
+                    <td><span style="color: red;">Password:</span> </td>
+                    <td><input type="password" name="password" placeholder="Password" class="form-control" style="color: #FF0000;"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input class="btn login-btn" type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}     
+            
+        Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+    </div>
 </div>
 
 {% endblock content %}

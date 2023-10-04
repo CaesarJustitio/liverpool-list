@@ -1,19 +1,67 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Add New Product</h1>
+<style>
+    body {
+        background-color: red;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Add Product"/>
-            </td>
-        </tr>
-    </table>
-</form>
+    .center-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        border: 2px solid red;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        color: red;
+        text-align: center;
+    }
+
+    label {
+        color: red;
+    }
+
+    input[type="text"], input[type="number"], textarea {
+        border: 1px solid red;
+        color: red;
+    }
+
+    input[type="submit"] {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="center-box">
+    <h1>Add New Player</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Add Product"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
 {% endblock %}

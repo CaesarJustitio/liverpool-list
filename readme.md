@@ -462,3 +462,392 @@ Di dalam file "main.html," saya menggunakan konteks "last_login" dengan cara ber
 ```py
 <h5>Last Login To Liverpool: {{ last_login }}</h5>
 ```
+
+# TUGAS 5
+
+## 1. Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+
+Element selector CSS digunakan untuk memilih elemen HTML mana yang akan diubah style-nya.
+
+### Type/Element Selector
+Manfaat: Mengaplikasikan style ke semua elemen dengan jenis khusus.
+Waktu yang tepat: Mengatur gaya default untuk elemen tertentu di seluruh halaman atau website. Misalnya, mengatur semua elemen <p> agar berwarna merah.
+
+### Class Selector
+Manfaat: Mengaplikasikan style ke semua elemen yang memiliki kelas tertentu.
+Waktu yang tepat: Mengatur style khusus untuk sekelompok elemen tanpa mengubah elemen lain. Misalnya, beberapa elemen h2 akan berwarna merah hanya pada kelas "login", sementara h2 lainnya tetap dengan warna default.
+
+### ID Selector
+Manfaat: Mengaplikasikan style ke elemen yang memiliki ID tertentu.
+Waktu yang tepat: Mengatur style khusus untuk elemen dengan ID tertentu yang unik.
+
+### Universal Selector
+Manfaat: Mengaplikasikan style ke seluruh elemen di file html.
+Waktu yang tepat: Mengatur style yang akan dipakai di seluruh halaman html. Misalnya, semua font di halaman ingin diatur menjadi Verdana.
+
+### Grouping Selector
+Manfaat: Menggabungkan beberapa selector untuk menerapkan style yang sama.
+Waktu yang tepat: ingin memberi style yang sama untuk beberapa elemen, agar tidak mengulang kode. Misalnya, <h1>,<h2>, dan <h3> ingin menerapkan background color yang sama.
+
+### Descendant Selector
+Manfaat: Mengaplikasikan style berdasarkan hubungan keturunan elemen.
+Waktu yang tepat: Mengatur style untuk elemen yang berada di dalam elemen lain dan merupakan keturunan elemen tersebut.     
+
+
+## 2. Jelaskan HTML5 Tag yang kamu ketahui.
+
+<!DOCTYPE html> : Mendefinisikan tipe dokumen HTML
+<a> : Mendefinisikan hyperlink/anchor
+<body> : Mendefinisikan elemen "body"
+<br> : Break line, elemen setelahnya akan berada di baris berikutnya
+<th> : Mendefinisikan header tabel
+<td> : Mendefinisikan data pada tabel
+<tr> : Mendefinisikan row tabel
+<header> : Mendefinisikan konten header atau navigasi.
+<link> : Untuk memberi referensi sumber
+<table> : Mendefinisikan table
+
+## 3. Jelaskan perbedaan antara margin dan padding.
+
+Margin adalah area yang terletak di luar batas elemen. Margin digunakan untuk mengatur jarak antara elemen tersebut dan elemen lainnya atau dinding kontainer. Margin dapat mempengaruhi tata letak elemen-elemen di sekitarnya, karena ia mengatur ruang di luar elemen.
+
+Padding adalah area yang terletak di antara konten elemen dan batas elemen tersebut. Penggunaan padding adalah untuk mengatur jarak antara konten dan batas elemen, sehingga konten elemen akan terletak lebih jauh dari batas elemen tersebut. Warna latar belakang pada padding akan menyesuaikan dengan background color yang telah ditentukan.
+
+
+## 4. Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+
+Bootstrap merupakan sebuah framework berorientasi komponen yang menyediakan sejumlah komponen desain yang telah tersedia, seperti tombol, kartu, navigasi, modals, dan berbagai elemen lainnya yang dapat digunakan dengan mudah. Penggunaan komponen-komponen tersebut dapat dilakukan secara langsung. Namun, untuk melakukan penyesuaian (customization) pada desain dengan Bootstrap, memerlukan upaya yang cukup besar karena harus mengubah banyak variabel agar sesuai dengan preferensi desain yang diinginkan. Bootstrap lebih baik digunakan untuk:
+- Menginginkan solusi cepat dengan komponen siap pakai
+- Pemula-friendly
+- Proyek lebih berfokus pada backend
+
+Tailwind adalah sebuah kerangka kerja (framework) yang berfokus pada penggunaan utilitas. Dalam Tailwind, pengembang diberikan kemampuan untuk dengan cepat membuat desain dengan menggunakan sejumlah kelas utilitas yang kecil, di mana setiap kelas mengontrol satu aspek spesifik dari desain, seperti margin, padding, warna, dan sebagainya. Keunggulan dari Tailwind adalah kemudahan dalam melakukan kustomisasi, karena ia memiliki tingkat fleksibilitas yang tinggi dan tidak mengikat pengembang pada gaya bawaan (default) dari kerangka kerja tersebut. Tailwind lebih baik digunakan untuk:
+- Ingin design yang unik
+- Menginginkan fleksibilitas yang lebih 
+- Ingin mengurangi jumlah CSS kustom
+
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
+
+### Login
+
+```py
+<style>
+    .login-container {
+        background-color: #FF0000;
+        color: #FF0000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .login-box {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .login h1 {
+        font-size: 24px;
+        color: #FF0000;
+        margin-bottom: 20px;
+    }
+
+    .login table {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .login input[type="text"],
+    .login input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    .login .login-btn {
+        background-color: #FFC0CB;
+        color: #FF0000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .login .login-btn:hover {
+        background-color: #FFB6C1;
+    }
+</style>
+```
+
+### Register
+
+```py
+<style>
+    body {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .login {
+        text-align: center;
+        background-color: #FF0000;
+        color: #FFFFFF;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        width: 80%;
+        max-width: 400px;
+    }
+
+    h1 {
+        color: #FF0000;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    input[type="submit"] {
+        background-color: #FFC0CB;
+        color: #FF0000;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #FFB6C1;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        color: #FFFFFF;
+    }
+</style>
+```
+
+### Create Product
+
+```py
+<style>
+    body {
+        background-color: red;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .center-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        border: 2px solid red;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        color: red;
+        text-align: center;
+    }
+
+    label {
+        color: red;
+    }
+
+    input[type="text"], input[type="number"], textarea {
+        border: 1px solid red;
+        color: red;
+    }
+
+    input[type="submit"] {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+```
+
+### Main
+
+```py
+<style>
+    body {
+        background-color: #FFC0CB;
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        background-color: #FFFFFF;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .navbar-text {
+        color: #FF0000;
+    }
+
+    .container {
+        text-align: center;
+        padding: 20px;
+        background-color: #FF0000;
+        color: #FFFFFF;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 70%;
+        max-width:
+        margin: 0 auto;
+    }
+
+    h1, h5 {
+        color: #FFFFFF;
+        padding: 10px;
+    }
+
+    .messages {
+        margin-top: 20px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #FFB6C1;
+    }
+
+    .btn-logout {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+
+    .btn-logout:hover {
+        background-color: #FF3333;
+    }
+
+    .card {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 0 auto;
+        max-width: 300px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: auto;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    .card {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        padding: 20px;
+        width: 300PX;
+    }
+
+</style>
+```
+
+### Navbar
+
+```py
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            User: {{ name }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'main:logout' %}">
+                        <button class="btn btn-logout">Logout</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+```

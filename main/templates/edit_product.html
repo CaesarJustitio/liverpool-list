@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #FF0000;
+    }
+
+    table {
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    input[type="submit"] {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #FFC0CB;
+    }
+</style>
+
+<h1>Edit Product</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Edit Item"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}

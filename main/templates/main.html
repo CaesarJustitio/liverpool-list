@@ -1,94 +1,185 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ appname }}</h1>
+<style>
+    body {
+        background-color: #FFC0CB;
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
 
-  <h5>{{ position1 }}</h5>
-  <p>Alisson Becker</p>
-  <p>Caomhin Kelleher</p>
-  <p>Adrian</p>
-  <p>Marcelo Pitaluga</p>
+    .navbar {
+        background-color: #FFFFFF;
+        padding: 20px;
+        border-radius: 15px;
+    }
 
-  <h5>{{ position2 }}</h5>
-  <p>Joel Matip</p>
-  <p>Virgil Van Dijk</p>
-  <p>Ibrahima Konate</p>
-  <p>Kostas Tsimikas</p>
-  <p>Andy Robertson</p>
-  <p>Trent Alexander-Arnold</p>
-  <p>Ibrahima Konate</p>
-  <p>Kostas Tsimikas</p>
+    .navbar-text {
+        color: #FF0000;
+    }
 
-  <h5>{{ position3 }}</h5>
-  <p>Wataru Endo</p>
-  <p>Thiago Alcantara</p>
-  <p>Dominik Szobozlai</p>
-  <p>Alexis Mac Allister</p>
-  <p>Curtis Jones</p>
-  <p>Harvey Elliot</p>
-  <p>Ryan Gravenberch</p>
-  <p>Stevan Bajcetic</p>
+    .container {
+        text-align: center;
+        padding: 20px;
+        background-color: #FF0000;
+        color: #FFFFFF;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 70%;
+        max-width:
+        margin: 0 auto;
+    }
 
-  <h5>{{ position4 }}</h5>
-  <p>Luis Diaz</p>
-  <p>Darwin Nunez</p>
-  <p>Mohamed Salah</p>
-  <p>Cody Gakpo</p>
-  <p>Diogo Jota</p>
+    h1, h5 {
+        color: #FFFFFF;
+        padding: 10px;
+    }
 
-  <h5>{{ name }}</h5>
-  <h5>{{ class }}</h5>
+    .messages {
+        margin-top: 20px;
+    }
 
-{% if messages %}
-    <h5 class="messages">
-        {% for message in messages %}
-            <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h5>
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #FFB6C1;
+    }
+
+    .btn-logout {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+
+    .btn-logout:hover {
+        background-color: #FF3333;
+    }
+
+    .card {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 0 auto;
+        max-width: 300px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: auto;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    .card {
+        background-color: #FFFFFF;
+        color: #FF0000;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        padding: 20px;
+        width: 300PX;
+    }
+
+</style>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            User: {{ name }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'main:logout' %}">
+                        <button class="btn btn-logout">Logout</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <h1>{{ appname }}</h1>
+    <h5>{{ class }}</h5>
+
+    {% if messages %}
+        <h5 class="messages">
+            {% for message in messages %}
+                <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h5>
+            {% endfor %}
+        </h5>
+    {% endif %}
+
+    <div class="row">
+        {% for item in items %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">Desc: {{ item.description }}</p>
+                        <p class="card-text">Amount: {{ item.amount }}</p>
+                        <p class="card-text">Goals: {{ item.goals }}</p>
+                        <p class="card-text">Market Price: {{ item.marketPrice }}</p>
+                        <a href="{% url 'main:dec_am' item.pk %}" class="btn btn-primary">-</a>
+                        <a href="{% url 'main:inc_am' item.pk %}" class="btn btn-danger">+</a>
+                        <a href="{% url 'main:edit_product' item.pk %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'main:delete' item.pk %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </h5>
-{% endif %}
+    </div>
 
-  <table>
-    <tr>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Increase/Decrease</th> 
-        <th>Description</th>
-        <th>Goals</th>
-        <th>Market Price</th>
-    </tr>
+    <br />
 
-    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+    <a href="{% url 'main:create_product' %}">
+        <button>
+            Add New Player
+        </button>
+    </a>
 
-    {% for item in items %}
-        <tr>
-            <td>{{item.name}}</td>
-            <td>{{item.amount}}</td>
-            <td>
-                <a href="{% url 'main:inc_am' item.id %}">Tambah</a>
-                <a href="{% url 'main:dec_am' item.id %}">Kurang</a>
-            </td>
-            <td>{{item.description}}</td>
-            <td>{{item.goals}}</td>
-            <td>{{item.marketPrice}}</td>
-            <td><a href="{% url 'main:delete' item.id %}">Hapus</a></td>
-        </tr>
-    {% endfor %}
-</table>
-
-<br />
-
-<a href="{% url 'main:create_product' %}">
-    <button>
-        Add New Product
-    </button>
-</a>
-
-<h5>Last Login To Liverpool: {{ last_login }}</h5>
-
-<a href="{% url 'main:logout' %}">
-    <button>
-        Logout
-    </button>
-</a>
+    <h5>Last Login To Liverpool: {{ last_login }}</h5>
+</div>
 
 {% endblock content %}
