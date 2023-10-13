@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from main.forms import ProductForm, redirect
 from django.urls import reverse
@@ -11,20 +11,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.shortcuts import get_object_or_404 
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url='/login')
 def show_main(request):
     items = Item.objects.filter(user=request.user)
 
-    last_login = request.COOKIES.get('last_login', 'N/A')
+    last_login = request.COOKIES.get('last_login', 'Not available')
 
     context = {
-        'name': request.user.username,
-        'class': 'PBP E',
         'appname': 'Liverpoolist',
+        'name': request.user.username,
         'items': items,
-        'last_login': last_login
+        'last_login': last_login,
     }
+
     return render(request, "main.html", context)
 
 def create_product(request):
@@ -34,10 +35,6 @@ def create_product(request):
         item = form.save(commit=False)
         item.user = request.user
         item.save()
-
-        players = Item.objects.filter(user=request.user).count()
-
-        messages.success(request, f"Kamu berhasil menyimpan {players} pemain pada liverpoolist. You'll Never Walk Alone")
         return HttpResponseRedirect(reverse('main:show_main'))
 
     context = {'form': form}
@@ -92,35 +89,60 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-def inc_am(request, item_id):
+def increase_amount(request, item_id):
     item = get_object_or_404(Item, pk=item_id, user=request.user)
     item.amount += 1
     item.save()
-    return HttpResponseRedirect(reverse('main:show_main'))
+    return JsonResponse({'amount': item.amount})
 
-def dec_am(request, item_id):
+def decrease_amount(request, item_id):
     item = get_object_or_404(Item, pk=item_id, user=request.user)
     if item.amount > 0:  
         item.amount -= 1
         item.save()
-    return HttpResponseRedirect(reverse('main:show_main'))
+    return JsonResponse({'amount': item.amount})
 
-def delete(request, item_id):
+def delete_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id, user=request.user)
     item.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
 
-def edit_product(request, id):
-    # Get product berdasarkan ID
+def edit_item(request, id):
     item = Item.objects.get(pk = id)
-
-    # Set product sebagai instance dari form
     form = ProductForm(request.POST or None, instance=item)
 
     if form.is_valid() and request.method == "POST":
-        # Simpan form dan kembali ke halaman awal
         form.save()
         return HttpResponseRedirect(reverse('main:show_main'))
-
     context = {'form': form}
-    return render(request, "edit_product.html", context)
+    return render(request, "edit_item.html", context)
+
+def get_item_json(request):
+    if not request.user.is_authenticated:
+        return JsonResponse([], safe=False) 
+
+    items = Item.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', items))
+
+@csrf_exempt
+def add_item_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        in_laundry = request.POST.get("in_laundry") == "on"
+        user = request.user
+
+        new_item = Item(name=name, amount=amount, description=description, in_laundry=in_laundry, user=user)
+        new_item.save()
+
+        data = {
+            'id': new_item.pk,
+            'name': new_item.name,
+            'amount': new_item.amount,
+            'description': new_item.description,
+            'in_laundry': new_item.in_laundry
+        }
+        return JsonResponse(data)
+
+    return HttpResponseNotFound()

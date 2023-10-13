@@ -851,3 +851,49 @@ Tailwind adalah sebuah kerangka kerja (framework) yang berfokus pada penggunaan 
     </nav>
 
 ```
+
+
+# Tugas 6
+
+## Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+Asynchronous Programming (Pemrograman Asinkron) adalah pendekatan di mana beberapa tugas bisa dimulai dan dijalankan secara bersamaan tanpa harus menunggu tugas sebelumnya selesai. Ini memungkinkan program untuk melanjutkan pekerjaan lain sambil menunggu tugas yang membutuhkan waktu lama. Ini sangat efisien untuk operasi seperti I/O atau permintaan jaringan.
+
+Synchronous Programming (Pemrograman Sinkron), sebaliknya, melibatkan eksekusi kode secara berurutan, satu tugas harus selesai sebelum tugas berikutnya dimulai. Meskipun lebih mudah dipahami dan didebug karena alur eksekusinya linear, ini dapat menjadi tidak efisien jika salah satu tugas memakan waktu lama, karena seluruh program akan terhenti dan menunggu tugas tersebut selesai.
+
+Jadi, perbedaan utama antara keduanya adalah bagaimana mereka mengelola urutan eksekusi tugas. Synchronous Programming cocok untuk alur kerja sederhana dan linear, sementara Asynchronous Programming sangat berguna untuk tugas yang memerlukan waktu lama atau aplikasi yang harus responsif dan cepat.
+
+## Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
+Paradigma event-driven programming adalah pendekatan pemrograman di mana alur eksekusi program ditentukan oleh urutan kejadian (events) seperti input pengguna, sensor output, atau pesan dari program lain. Program event-driven dirancang untuk bereaksi terhadap kejadian tertentu. Penerapan pada tugas saya:
+```py
+document.addEventListener('click', async function(e) {
+    if (e.target && e.target.classList.contains('btn-increase')) {
+        const itemId = e.target.getAttribute('data-id');
+        const response = await fetch(`{% url 'main:increase_amount' 999999 %}`.replace('999999', itemId));
+        const data = await response.json();
+        e.target.closest('.card-body').querySelector('.amount-display').textContent = `Amount: ${data.amount}`;
+    } else if (e.target && e.target.classList.contains('btn-decrease')) {
+        const itemId = e.target.getAttribute('data-id');
+        const response = await fetch(`{% url 'main:decrease_amount' 999999 %}`.replace('999999', itemId));
+        const data = await response.json();
+        e.target.closest('.card-body').querySelector('.amount-display').textContent = `Amount: ${data.amount}`;
+    }
+});
+```
+
+## Jelaskan penerapan asynchronous programming pada AJAX.
+Dalam konteks AJAX, asynchronous programming memungkinkan sebuah halaman web untuk mengirim permintaan data ke server dan memperbarui bagian tertentu dari halaman tanpa harus me-refresh seluruh halaman. Penerapan asynchronous programming dalam AJAX:
+
+1. Permintaan Asynchronous: Saat sebuah permintaan AJAX dikirim, browser tidak harus menunggu respon dari server sebelum melanjutkan eksekusi kode lainnya. Hal ini berarti pengguna dapat tetap berinteraksi dengan halaman sambil permintaan sedang diproses.
+
+2. Callback: Setelah permintaan AJAX selesai (baik berhasil, gagal, atau mengalami timeout), sebuah fungsi callback dapat dipanggil. Fungsi ini mendefinisikan tindakan yang akan diambil setelah menerima respon dari server. Dalam pengembangan JavaScript modern, pendekatan seperti Promises dan async/await sering digunakan sebagai alternatif untuk penggunaan callback tradisional. Ini memberikan cara yang lebih terstruktur dan mudah dibaca untuk mengelola operasi asinkron.
+
+3. Pembaruan Halaman: Setelah menerima respon dari server, halaman web dapat diperbarui secara dinamis tanpa perlu me-refresh seluruh halaman. Ini memungkinkan pengalaman pengguna yang lebih cepat dan responsif.
+
+## Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
+Fetch API adalah sebuah antarmuka pemrograman aplikasi (API) yang ada secara bawaan di mayoritas browser modern. Keunggulan utama Fetch API adalah kemampuan untuk mengirim permintaan jaringan tanpa memerlukan library eksternal, sehingga Anda tidak perlu mengimpor perpustakaan tambahan. Fetch API didasarkan pada konsep Promises, yang memudahkan penanganan respons, terutama saat digunakan bersama dengan async/await. API Fetch memberikan kontrol yang lebih tinggi atas permintaan jaringan, termasuk pengaturan manual untuk header, mode, dan otentikasi. Beberapa pengembang mungkin merasa bahwa Fetch memiliki sintaks yang lebih modern dan intuitif jika dibandingkan dengan penggunaan jQuery AJAX.
+
+Sementara itu, jQuery AJAX memiliki keunggulan utama dalam hal kompatibilitas lintas browser. Meskipun Fetch API didukung oleh browser modern, browser lama mungkin tidak mendukungnya. Oleh karena itu, jQuery menyediakan solusi AJAX yang bekerja di hampir semua browser, bahkan yang lebih tua. Untuk pengembang yang sudah terbiasa dengan penggunaan jQuery, menggunakan AJAX melalui jQuery mungkin terasa lebih akrab. Selain menyediakan fitur AJAX, jQuery juga menawarkan berbagai fungsi lain yang mempermudah manipulasi DOM, animasi, dan tugas-tugas lain dalam pengembangan web.
+
+Penggunaan jQuery juga berarti harus menambahkan library eksternal ke proyek Anda, yang dapat memengaruhi ukuran total file yang harus diunduh oleh pengguna. Dalam proyek-proyek baru yang tidak memerlukan dukungan browser lama, lebih umum untuk memilih Fetch API karena sifatnya yang bawaan dan integrasinya yang baik dengan fitur JavaScript modern. Meskipun demikian, keputusan akhir sebaiknya didasarkan pada kebutuhan khusus proyek dan preferensi pengembang. Jika Anda sedang mengembangkan aplikasi web modern dan ingin mengurangi ketergantungan pada library eksternal serta memanfaatkan fitur ES6+ seperti Promises dan async/await, maka Fetch API mungkin merupakan pilihan yang lebih cocok. Namun, jika proyek Anda sudah menggunakan jQuery atau harus memastikan kompatibilitas lintas browser yang luas, terutama dengan browser lama, maka penggunaan jQuery AJAX mungkin merupakan pilihan yang lebih tepat.
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).

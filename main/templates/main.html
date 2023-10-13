@@ -1,117 +1,121 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% block meta %}
+    <title>{{ appname }}</title>
+{% endblock meta %}
+
 <style>
+    * {
+        font-family: Verdana, sans-serif;
+    }
     body {
-        background-color: #FFC0CB;
-        color: #FFFFFF;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
+        background-color: #DAB6C4;
+        color: #4A7C59;
+        text-align: center;
+        margin: 20px 0;
     }
 
     .navbar {
-        background-color: #FFFFFF;
+        background-color: #FF0000;
         padding: 20px;
         border-radius: 15px;
     }
 
     .navbar-text {
-        color: #FF0000;
+        color: #FFFFFF;
     }
 
-    .container {
+    h1 {
+        color: #A53860;
         text-align: center;
-        padding: 20px;
-        background-color: #FF0000;
-        color: #FFFFFF;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        width: 70%;
-        max-width:
-        margin: 0 auto;
     }
 
-    h1, h5 {
-        color: #FFFFFF;
-        padding: 10px;
+    p {
+        color: #60435F;
     }
 
-    .messages {
-        margin-top: 20px;
-    }
-
-    .btn-container {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    button {
-        background-color: #FFFFFF;
-        color: #FF0000;
-        padding: 15px 20px;
+    button, .btn {
+        font-family: Verdana, sans-serif;
+        background-color: #60435F;
+        color: #FFF0F5;
         border: none;
-        border-radius: 20px;
+        padding: 10px 20px;
         cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
     }
 
     button:hover {
-        background-color: #FFB6C1;
+        background-color: #A53860;
+        color: #DAB6C4;
     }
 
-    .btn-logout {
-        background-color: #FF0000;
+    .btn-increase {
+        background-color: #DE5D83;
         color: #FFFFFF;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        position: absolute;
-        top: 10px;
-        right: 10px;
     }
-    
 
-    .btn-logout:hover {
-        background-color: #FF3333;
+    .btn-decrease {
+        background-color: #C54B8C;
+        color: #FFFFFF;
+    }
+
+    .btn-delete {
+        background-color: #DC143C;
+        color: #FFFFFF;
+    }
+
+    .btn-increase:hover {
+        background-color: #ACE1AF;
+    }
+    .btn-decrease:hover {
+        background-color: #FADFAD;
+    }
+    .btn-delete:hover {
+        background-color: #C51E3A;
+    }
+
+    .btn-edit {
+        background-color: #997A8D;
+        color: #FFFFFF;
+    }
+    .btn-edit:hover {
+        background-color: #F2BDCD;
+    }
+
+    .navbar-brand {
+        color: #A53860;
+        font-weight: bold;
+    }
+
+    #item_cards {
+        display: flex;
+        overflow-x: auto;
+        width: 80%;
+        margin: 0 auto;
+        gap: 20px;
+        scrollbar-width: none;
     }
 
     .card {
-        background-color: #FFFFFF;
-        color: #FF0000;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        margin: 0 auto;
-        max-width: 300px;
-        width: 100%;
-        margin-bottom: 20px;
+        background-color: #FF0000; /* Warna latar belakang merah */
+        color: #FFFFFF; /* Warna teks putih */
+        flex: 0 0 calc(33.3333% - 20px);
+        box-shadow: 5px 8px 8px #ED7A9B;
+        margin-bottom: 15px;
     }
 
-    .card-img-top {
-        width: 100%;
-        height: auto;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+    .card-title {
+        color: #FF0000; /* Warna teks merah */
+        font-weight: bold;
     }
 
     .card-body {
-        text-align: center;
-    }
-
-    .card {
         background-color: #FFFFFF;
-        color: #FF0000;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        margin-bottom: 20px;
-        padding: 20px;
-        width: 300PX;
     }
-
 </style>
 
 <div class="container">
@@ -138,48 +142,176 @@
             </ul>
         </div>
     </nav>
-    
 
-    <h1>{{ appname }}</h1>
-    <h5>{{ class }}</h5>
+    <body>
+        <br>
+        <p>{{ appname }}</p>
 
-    {% if messages %}
-        <h5 class="messages">
-            {% for message in messages %}
-                <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h5>
-            {% endfor %}
-        </h5>
-    {% endif %}
+        <div id="item_cards"style="overflow-x: auto;">></div>
 
-    <div class="row">
-        {% for item in items %}
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.name }}</h5>
-                        <p class="card-text">Desc: {{ item.description }}</p>
-                        <p class="card-text">Amount: {{ item.amount }}</p>
-                        <p class="card-text">Goals: {{ item.goals }}</p>
-                        <p class="card-text">Market Price: {{ item.marketPrice }}</p>
-                        <a href="{% url 'main:dec_am' item.pk %}" class="btn btn-primary">-</a>
-                        <a href="{% url 'main:inc_am' item.pk %}" class="btn btn-danger">+</a>
-                        <a href="{% url 'main:edit_product' item.pk %}" class="btn btn-primary">Edit</a>
-                        <a href="{% url 'main:delete' item.pk %}" class="btn btn-danger">Delete</a>
+        <br>
+
+        <a href="{% url 'main:create_product' %}">
+            <button>Add New Item</button>
+        </a>
+
+        <!-- Trigger button for the modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal">Add New Item of Clothing</button>
+
+        <!-- Modal structure -->
+        <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="itemModalLabel">Add New Item of Clothing</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addItemForm" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" name="name" id="id_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_amount" class="col-form-label">Amount:</label>
+                                <input type="number" class="form-control" name="amount" id="id_amount" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" name="description" id="id_description" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_goals" class="col-form-label">Goal:</label>
+                                <input type="text" class="form-control" name="goals" id="id_goals" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_market_price" class="col-form-label">Market Price:</label>
+                                <input type="text" class="form-control" name="marketPrice" id="id_market_price" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="button_add_item">Add Item</button>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
 
-    <br />
+        <br>
+        <br>
 
-    <a href="{% url 'main:create_product' %}">
-        <button>
-            Add New Player
-        </button>
-    </a>
+        <h5>Last entered Anfield: {{ last_login }}</h5>
+    </body>
 
-    <h5>Last Login To Liverpool: {{ last_login }}</h5>
+<script>
+    async function getItems() {
+        return fetch("{% url 'main:get_item_json' %}")
+            .then((res) => res.json());
+    }
+    
+    async function refreshItems() {
+        document.getElementById("item_cards").innerHTML = "";
+        
+        const items = await getItems();
+        let htmlString = "";
+        
+        items.forEach((item) => {
+            const increaseUrl = `{% url 'main:increase_amount' 999999 %}`.replace('999999', item.pk);
+            const decreaseUrl = `{% url 'main:decrease_amount' 999999 %}`.replace('999999', item.pk);
+            const deleteUrl = "{% url 'main:delete_item' 999999 %}".replace('999999', item.pk);
+            const editUrl = "{% url 'main:edit_item' 999999 %}".replace('999999', item.pk);
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = new Date(item.fields.date_added).toLocaleDateString(undefined, dateOptions);
+
+            
+            htmlString += `
+            <div class="card">
+                <!-- You can add an image here if you have one -->
+                <div class="card-body">
+                    <h3 class="card-title">${item.fields.name}</h3>
+                    <p class="card-text amount-display">Amount: ${item.fields.amount}</p>
+                    <p class="card-text">Description: ${item.fields.description}</p>
+                    <p class="card-text">Goal: ${item.fields.goals}</p>
+                    <p class="card-text">Market Price: ${item.fields.marketPrice}</p>
+                    <div class="btn-group">
+                        <button data-id="${item.pk}" class="btn btn-sm btn-increase">+</button>
+                        <button data-id="${item.pk}" class="btn btn-sm btn-decrease">-</button>
+                        <a href="${editUrl}" class="btn btn-sm btn-edit">Edit</a>
+                        <a href="${deleteUrl}" class="btn btn-sm btn-delete">Delete</a>
+                    </div>
+                </div>
+            </div>`;
+        });
+        
+        document.getElementById("item_cards").innerHTML = htmlString;
+    }    
+
+    document.addEventListener('click', async function(e) {
+        if (e.target && e.target.classList.contains('btn-increase')) {
+            const itemId = e.target.getAttribute('data-id');
+            const response = await fetch(`{% url 'main:increase_amount' 999999 %}`.replace('999999', itemId));
+            const data = await response.json();
+            e.target.closest('.card-body').querySelector('.amount-display').textContent = `Amount: ${data.amount}`;
+        } else if (e.target && e.target.classList.contains('btn-decrease')) {
+            const itemId = e.target.getAttribute('data-id');
+            const response = await fetch(`{% url 'main:decrease_amount' 999999 %}`.replace('999999', itemId));
+            const data = await response.json();
+            e.target.closest('.card-body').querySelector('.amount-display').textContent = `Amount: ${data.amount}`;
+        }
+    });
+
+    function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {   
+            method: "POST",
+            body: new FormData(document.querySelector('#addItemForm'))
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to add item. Server responded with status: ' + response.status);
+            }
+        })
+        .then(item => {
+            const increaseUrl = `{% url 'main:increase_amount' 999999 %}`.replace('999999', item.id);
+            const decreaseUrl = `{% url 'main:decrease_amount' 999999 %}`.replace('999999', item.id);
+            const deleteUrl = "{% url 'main:delete_item' 999999 %}".replace('999999', item.id);
+            const editUrl = "{% url 'main:edit_item' 999999 %}".replace('999999', item.id);
+    
+            const newCard = `
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${item.name}</h5>
+                    <p class="card-text amount-display">Amount: ${item.amount}</p>
+                    <p class="card-text">${item.description}</p>
+                    <p class="card-text">${item.fields.goals}</p>
+                    <p class="card-text">${item.fields.marketPrice}</p>
+                    <button data-id="${item.id}" class="btn btn-sm btn-increase">+</button>
+                    <button data-id="${item.id}" class="btn btn-sm btn-decrease">-</button>
+                    <br>
+                    <a href="${editUrl}" class="btn btn-sm btn-edit">Edit</a>
+                    <a href="${deleteUrl}" class="btn btn-sm btn-delete">Delete</a>
+                </div>
+            </div>`;
+    
+            document.getElementById("item_cards").insertAdjacentHTML('beforeend', newCard);
+            $("#itemModal").modal('hide');
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    
+        document.getElementById("addItemForm").reset();
+        return false;
+    }
+    document.getElementById("button_add_item").onclick = addItem;
+
+    refreshItems();
+</script>
+
 </div>
+
 
 {% endblock content %}
